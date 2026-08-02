@@ -1,0 +1,16 @@
+#!/data/data/com.termux/files/usr/bin/bash
+# AstralGPT launcher - starts Ollama if needed, then runs astralgpt.py
+
+WORMGPT_DIR="/data/data/com.termux/files/home/storage/worm-gpt"
+OLLAMA_HOST="http://127.0.0.1:11434"
+
+# Check if Ollama is running
+curl -s "$OLLAMA_HOST" > /dev/null 2>&1
+if [ $? -ne 0 ]; then
+    echo -e "\033[1;33m[AstralGPT] Starting Ollama server...\033[0m"
+    ollama serve > /dev/null 2>&1 &
+    sleep 3
+fi
+
+cd "$WORMGPT_DIR"
+exec python3 astralgpt.py
